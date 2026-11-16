@@ -1,13 +1,37 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    IO.println(String.format("Hello and welcome!"));
 
-    for (int i = 1; i <= 5; i++) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        IO.println("i = " + i);
+    final var converter = new Converter();
+    final Scanner input = new Scanner(System.in);
+
+    while (true) {
+        try {
+            System.out.print("Convert from ascii, morse or exit program [a/m/e]: ");
+            switch (input.nextLine()) {
+                case "a": {
+
+                    System.out.print("Enter ascii string: ");
+                    System.out.println("Converted to morse: " + converter.toMorse(input.nextLine()));
+                    break;
+                }
+
+                case "m": {
+                    System.out.print("Enter morse string: ");
+                    System.out.println("Converted to ascii: " + converter.fromMorse(input.nextLine()));
+                    break;
+                }
+
+                case "e": {
+                    return;
+                }
+
+                default: {
+                    continue;
+                }
+            }
+        } catch (IllegalArgumentException error) {
+            System.out.println("Error: " + error.getMessage());
+        }
     }
 }

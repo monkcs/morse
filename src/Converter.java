@@ -1,11 +1,13 @@
+import org.jspecify.annotations.NonNull;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Converter {
 
-    private HashMap<String, String> asciiMap = new HashMap<>();
-    private HashMap<String, String> morseMap = new HashMap<>();
+    private final HashMap<String, String> asciiMap = new HashMap<>();
+    private final HashMap<String, String> morseMap;
 
     public Converter() {
         asciiMap.put("a", ".-");
@@ -38,13 +40,46 @@ public class Converter {
         morseMap = (HashMap<String, String>) asciiMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
     }
 
-    public String toMorse(String ascii) {
-        String result = "";
+    public String toMorse(@NonNull String ascii) {
 
-        return result;
+        ascii = ascii.trim();
+        StringBuilder result = new StringBuilder();
+
+        if (!ascii.isEmpty()) {
+            for (final var word : ascii.toLowerCase().split(" ")) {
+                for (final var character : word.toCharArray()) {
+                    if (asciiMap.containsKey(String.valueOf(character))) {
+                        result.append(asciiMap.get(String.valueOf(character)));
+                        result.append(" ");
+                    } else {
+                        throw new IllegalArgumentException("Ascii character '" + character + "' not convertible to morse");
+                    }
+                }
+                result.append("  ");
+            }
+        }
+
+        return result.toString().trim();
     }
 
-    public String fromMorse(String morse) {
-        return morse;
+    public String fromMorse(@NonNull String morse) {
+
+        morse = morse.trim();
+        StringBuilder result = new StringBuilder();
+
+        if (!morse.isEmpty()) {
+            for (final var word : morse.split(" {3}")) {
+                for (final var character : word.split(" ")) {
+                    if (morseMap.containsKey(character)) {
+                        result.append(morseMap.get(character));
+                    } else {
+                        throw new IllegalArgumentException("Morse character '" + character + "' not convertible to ascii");
+                    }
+                }
+                result.append(" ");
+            }
+        }
+
+        return result.toString().trim();
     }
 }
