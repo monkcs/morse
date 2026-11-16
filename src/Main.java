@@ -1,5 +1,4 @@
 void main() {
-
     final var converter = new Converter();
     final Scanner input = new Scanner(System.in);
 
