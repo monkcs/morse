@@ -41,7 +41,6 @@ public class Converter {
     }
 
     public String toMorse(@NonNull String ascii) {
-
         ascii = ascii.trim();
         StringBuilder result = new StringBuilder();
 
@@ -63,7 +62,6 @@ public class Converter {
     }
 
     public String fromMorse(@NonNull String morse) {
-
         morse = morse.trim();
         StringBuilder result = new StringBuilder();
 
